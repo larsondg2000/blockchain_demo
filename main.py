@@ -51,20 +51,28 @@ st.set_page_config(page_title="Blockchain Demo", page_icon=":material/currency_b
 
 st.image("bc_demo.jpg", caption=None, width=None)
 
+col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
+
+with col1:
+    st.image("bitcoin-btc-logo.png", caption=None, width=50)
+with col2:
+    st.image("ethereum-eth-logo.png", caption=None, width=50)
+with col3:
+    st.image("solana-sol-logo.png", caption=None, width=50)
+with col4:
+    st.image("xrp-xrp-logo.png", caption=None, width=50)
+with col5:
+    st.image("avalanche.png", caption=None, width=50)
+
 rainbow_divider = """
 <hr style="height:2px;border:none;background:linear-gradient(to right, red, orange, 
 yellow, green, blue, indigo, violet);">
 """
 
-st.write("""
-_**This interactive demo explains how a blockchain works. You can add transactions,
-mine new blocks, and see how the blockchain maintains its integrity.**_
-""")
-# st.balloons()
 st.markdown(rainbow_divider, unsafe_allow_html=True)
 
 # Sidebar for adding transactions
-st.sidebar.header("Add New Transaction")
+st.sidebar.header("Create Transaction")
 sender = st.sidebar.text_input("Sender")
 recipient = st.sidebar.text_input("Recipient")
 amount = st.sidebar.number_input("Amount", min_value=0.1, step=0.1)
@@ -75,7 +83,7 @@ if st.sidebar.button("Add Transaction"):
         st.sidebar.error("Pending transactions full. Mine a new block to add more.")
 
 # Display pending transactions
-st.subheader(":blue[_Pending Transactions_]")
+st.subheader(":rainbow[_Pending Transactions_]")
 if st.session_state.blockchain.pending_transactions:
     for i, transaction in enumerate(st.session_state.blockchain.pending_transactions, 1):
         st.write(f"Transaction {i}:")
@@ -84,6 +92,7 @@ else:
     st.write("No pending transactions.")
 
 # Mine new block
+
 if st.button("Mine New Block"):
     if st.session_state.blockchain.pending_transactions:
         import random
@@ -94,37 +103,76 @@ if st.button("Mine New Block"):
         st.error("No pending transactions to mine. Add some transactions first.")
 st.divider()
 # Display the blockchain
-st.subheader(":blue[Current Blockchain]")
+st.subheader(":rainbow[Current Blockchain]")
 for i, block in enumerate(st.session_state.blockchain.chain):
     if i == 0:
-        st.subheader(":green[_Genesis Block_]")
-        st.write("_Read about the Bitcoin Genesis Block:_  https://en.bitcoin.it/wiki/Genesis_block")
+        st.subheader(":red[_Genesis Block_]")
+        st.write("_More info. on genesis block:_  https://en.bitcoin.it/wiki/Genesis_block")
     else:
         st.subheader(f"Block {i}")
     st.json(block)
     if i < len(st.session_state.blockchain.chain) - 1:
         st.markdown("⬇️")
 
-# Explain blockchain concepts
-st.divider()
-st.subheader(":blue[How Blockchain Works]")
-st.write("""
-1. **Transactions**: Users create transactions (e.g., sending Bitcoin).
-2. **Pending Transactions**: Transactions are added to a pending list (max 3 in this demo).
-3. **Blocks**: Pending transactions are grouped into blocks when mined.
-4. **Mining**: New blocks are added to the chain through a process called mining.
-5. **Hashing**: Each block contains a unique hash and the hash of the previous block, creating a chain.
-6. **Immutability**: Changing any information in a block would change its hash, breaking the chain.
-""")
-
 # Add an interactive element to demonstrate hashing
-# st.write("₿ ₿ ₿  ₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿")
+# st.write("₿ ₿   ₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿")
 st.divider()
-st.subheader(":blue[See How Hashing Works]")
+st.subheader(":rainbow[See How Hashing Works]")
 user_input = st.text_input("Enter some text to hash")
 if user_input:
     hash_result = hashlib.sha256(user_input.encode()).hexdigest()
     st.write(f"SHA256 Hash: {hash_result}")
     st.info("Notice how even a small change in the input produces a completely different hash!")
-
 st.image("sha.jpg", caption=None, width=None)
+
+# Explain blockchain concepts
+st.divider()
+st.subheader(":rainbow[How Blockchain Works]")
+
+# Introduction
+st.markdown("**Introduction**")
+st.markdown("Blockchain technology is a decentralized and secure way of recording transactions. It’s most famously used in Bitcoin, a digital currency.")
+
+# Key Components
+st.markdown("**Key Components**")
+st.markdown("""
+- **Blocks:** Each block contains a list of transactions.
+- **Chain:** Blocks are linked in a sequential chain.
+- **Decentralized Network:** Multiple nodes (computers) validate transactions.
+""")
+
+# How Bitcoin Uses Blockchain
+st.markdown("**How Bitcoin Uses Blockchain**")
+st.markdown("""
+- **Transaction Creation:** A Bitcoin transaction is initiated.
+- **Transaction Verification:** Nodes in the network verify the transaction.
+- **Block Creation:** Verified transactions are bundled into a new block.
+- **Block Addition:** The new block is added to the blockchain.
+""")
+
+# Role of SHA-256
+st.markdown("**Role of SHA-256**")
+st.markdown("""
+- **Hash Function:** SHA-256 is a cryptographic hash function used to ensure data integrity.
+- **Block Hashing:** Each block includes a hash of the previous block, creating a secure link.
+""")
+
+# Example of SHA-256
+st.markdown("**Example of SHA-256**")
+st.markdown("""
+- **Input:** The transaction data.
+- **Process:** SHA-256 processes this data to produce a unique hash.
+- **Output:** A fixed 256-bit hash that represents the transaction data.
+""")
+
+# Benefits of Blockchain
+st.markdown("**Benefits of Blockchain**")
+st.markdown("""
+- **Security:** Cryptographic techniques like SHA-256 provide robust security.
+- **Transparency:** Transactions are recorded on a public ledger.
+- **Decentralization:** No single point of failure or control.
+""")
+
+# Links for more information
+st.markdown("For more details on blockchain, visit [Wikipedia](https://en.wikipedia.org/wiki/Blockchain) and [Bitcoin](https://bitcoin.org/en/how-it-works).")
+st.divider()
