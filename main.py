@@ -83,7 +83,7 @@ if st.sidebar.button("Add Transaction"):
         st.sidebar.error("Pending transactions full. Mine a new block to add more.")
 
 # Display pending transactions
-st.subheader(":rainbow[_Pending Transactions_]")
+st.subheader(":green[_Pending Transactions_]")
 if st.session_state.blockchain.pending_transactions:
     for i, transaction in enumerate(st.session_state.blockchain.pending_transactions, 1):
         st.write(f"Transaction {i}:")
@@ -103,10 +103,10 @@ if st.button("Mine New Block"):
         st.error("No pending transactions to mine. Add some transactions first.")
 st.divider()
 # Display the blockchain
-st.subheader(":rainbow[Current Blockchain]")
+st.subheader(":green[Current Blockchain]")
 for i, block in enumerate(st.session_state.blockchain.chain):
     if i == 0:
-        st.subheader(":red[_Genesis Block_]")
+        st.subheader(":blue[_Genesis Block_]")
         st.write("_More info. on genesis block:_  https://en.bitcoin.it/wiki/Genesis_block")
     else:
         st.subheader(f"Block {i}")
@@ -117,7 +117,7 @@ for i, block in enumerate(st.session_state.blockchain.chain):
 # Add an interactive element to demonstrate hashing
 # st.write("₿ ₿   ₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿₿")
 st.divider()
-st.subheader(":rainbow[See How Hashing Works]")
+st.subheader(":green[See How Hashing Works]")
 user_input = st.text_input("Enter some text to hash")
 if user_input:
     hash_result = hashlib.sha256(user_input.encode()).hexdigest()
@@ -127,7 +127,7 @@ st.image("sha.jpg", caption=None, width=None)
 
 # Explain blockchain concepts
 st.divider()
-st.subheader(":rainbow[How Blockchain Works]")
+st.subheader(":green[How Blockchain Works]")
 
 # Introduction
 st.markdown("**Introduction**")
